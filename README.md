@@ -3,19 +3,19 @@
 Procedural generation with three.js (alpha)
 
 
-### classes
+## classes
 
 Noise, Mixer, Geo, Octree
 
 
-### how to use
+## how to use
 
 ```javascript
 import * as PG from 'https://1florki.github.io/pg/pg.js'
 ```
 
 
-### demos
+## demos
 
 show octree, geo, and mixer in action: (press n for next example) https://1florki.github.io/pg/demo1/
 
