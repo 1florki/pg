@@ -8,7 +8,9 @@ Noise, Mixer, Geo, Octree
 
 ## how to use
 
+```javascript
 import * as PG from 'https://1florki.github.io/pg/pg.js'
+```
 
 # demos
 
