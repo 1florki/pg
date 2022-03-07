@@ -1036,6 +1036,28 @@ export class Helper {
     var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
     return (u >= 0) && (v >= 0) && (u + v < 1);
   }
+  
+  static randomPointInFace(face, RNG) {
+    // Call the corners of the triangle A, B, C, the side vectors AB, BC, AC
+    let ab = face.b.clone().sub(face.a);
+    let bc = face.c.clone().sub(face.b);
+    let ac = face.c.clone().sub(face.a);
+    // generate two random numbers in [0,1] called u and v.
+    let u = RNG != undefined ? RNG.random() : Math.random();
+    let v = RNG != undefined ? RNG.random() : Math.random();
+    // Let p = u * AB + v * AC.
+    let p = ab.clone().multiplyScalar(u).add(ac.clone().multiplyScalar(v));
+
+    // If A+p is inside the triangle, return A+p
+    let point = face.a.clone().add(p);
+
+    // If A+p is outside the triangle, return A + AB + AC - p
+    if (!Helper.isPointInFace(face, point)) {
+      point.sub(p.multiplyScalar(2));
+      point.add(ab);
+      point.add(ac);
+    }
+  }
 
   // load pixel data of image so we can access it with getPixel(data, x, y) where x, y in range [0, 1]
   static loadImageData(image) {
@@ -1633,26 +1655,7 @@ export class Geo {
     let randomFace = Math.floor((RNG != undefined ? RNG.random() : Math.random()) * this.faceCount());
     let face = this.getFace(randomFace);
 
-    // Call the corners of the triangle A, B, C, the side vectors AB, BC, AC
-    let ab = face.b.clone().sub(face.a);
-    let bc = face.c.clone().sub(face.b);
-    let ac = face.c.clone().sub(face.a);
-    // generate two random numbers in [0,1] called u and v.
-    let u = RNG != undefined ? RNG.random() : Math.random();
-    let v = RNG != undefined ? RNG.random() : Math.random();
-    // Let p = u * AB + v * AC.
-    let p = ab.clone().multiplyScalar(u).add(ac.clone().multiplyScalar(v));
-
-    // If A+p is inside the triangle, return A+p
-    let point = face.a.clone().add(p);
-
-    // If A+p is outside the triangle, return A + AB + AC - p
-    if (!Helper.isPointInFace(face, point)) {
-      point.sub(p.multiplyScalar(2));
-      point.add(ab);
-      point.add(ac);
-    }
-    return point;
+    return Helper.randomPointInFace(face, RNG);
   }
 
   // move all vertices up to max in any direction
