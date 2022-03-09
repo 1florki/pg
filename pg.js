@@ -1057,6 +1057,7 @@ export class Helper {
       point.add(ab);
       point.add(ac);
     }
+    return point;
   }
 
   // load pixel data of image so we can access it with getPixel(data, x, y) where x, y in range [0, 1]
