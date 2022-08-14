@@ -1556,7 +1556,7 @@ export class Geo {
     }
 
     if (opts.scatter) {
-      this.scatter(opts.scatter);
+      this.scatter(opts.scatter, opts.scatterScale, opts.scatterSeed);
     }
     if (opts.reverse) {
       this.reverseFaces();
@@ -1660,12 +1660,13 @@ export class Geo {
   }
 
   // move all vertices up to max in any direction
-  scatter(max, scl) {
+  scatter(max, scl, seed) {
     max = max || 0.01;
     let noise = new Noise({
       min: -max,
       max: max,
-      scl: scl || 10
+      scl: scl || 10,
+      seed: seed,
     });
     this.change((v) => {
       v.x += noise.get(v.x, v.y, v.z);
