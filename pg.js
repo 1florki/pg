@@ -662,6 +662,13 @@ export class Noise {
         l.setSeed(this.seed * 3 + i++ * 7);
       }
     }
+    
+    for(let k of Object.keys(this)) {
+      if(this[k] != undefined && this[k].isNoise) {
+        this[k].setSeed(this.seed * 17 + 513);
+      }
+    }
+    
     return seed;
   }
 
