@@ -654,12 +654,12 @@ export class Noise {
   }
 
   setSeed(seed) {
-    seed = seed || (Math.random() * 10000);
-    this.simplex = new SimplexNoise(seed);
+    this.seed = seed || (Math.random() * 10000);
+    if(this.simplex) this.simplex = new SimplexNoise(this.seed);
     if (this.layers) {
       let i = 13
       for (let l of this.layers) {
-        l.setSeed(seed * 3 + i++ * 7);
+        l.setSeed(this.seed * 3 + i++ * 7);
       }
     }
     return seed;
